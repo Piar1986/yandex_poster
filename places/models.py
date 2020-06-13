@@ -9,4 +9,12 @@ class Place(models.Model):
     lat = models.FloatField('Широта')
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
+
+
+class PlaceImage(models.Model):
+    place = models.ForeignKey(Place, verbose_name='Место локации', on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField('Картинка', blank=True)
+
+    def __str__(self):
+        return self.id, self.place.title
