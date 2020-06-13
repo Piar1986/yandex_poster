@@ -17,4 +17,4 @@ class PlaceImage(models.Model):
     image = models.ImageField('Картинка', blank=True)
 
     def __str__(self):
-        return self.id, self.place.title
+        return f'{self.id}, {self.place.title}'
