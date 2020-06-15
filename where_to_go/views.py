@@ -1,6 +1,9 @@
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader
-from places.models import Place
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from places.models import Place, PlaceImage
 
 
 def format_coordinate(coordinate):
@@ -26,3 +29,24 @@ def index(request):
         }
     rendered_page = template.render(context, request)
     return HttpResponse(rendered_page)
+
+
+def place_details_view(request, place_id):
+    place = get_object_or_404(Place, id=place_id)
+    place_images = place.images.all()
+    place_images_urls = [place_image.image.url for place_image in place_images]
+    place_details = {
+        'title': place.title,
+        'imgs': place_images_urls,
+        'description_short': place.description_short,
+        'description_long': place.description_long,
+        'coordinates': {
+            'lng': place.lng,
+            'lat': place.lat
+            }
+        }
+    place_details_json = JsonResponse(place_details, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    context = {
+        'json': place_details_json.content
+        }
+    return render(request, 'place_details.html', context)
