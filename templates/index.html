@@ -40,34 +40,28 @@
       width: 100px;
     }
   </style>
+
+
   <script id="places-geojson" type="application/json">
     {
       "type": "FeatureCollection",
       "features": [
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.62, 55.793676]
+        {% for place in places %}  
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [{{place.longitude}}, {{place.latitude}}]
+            },
+            "properties": {
+              "title": "{{place.title}}",
+              "placeId": "moscow_legends",
+              "detailsUrl": "https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/master/places/moscow_legends.json"
+            }
           },
-          "properties": {
-            "title": "«Легенды Москвы",
-            "placeId": "moscow_legends",
-            "detailsUrl": "https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/master/places/moscow_legends.json"
+        {% endfor %}
+          {
           }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.64, 55.753676]
-          },
-          "properties": {
-            "title": "Крыши24.рф",
-            "placeId": "roofs24",
-            "detailsUrl": "https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/master/places/roofs24.json"
-          }
-        }
       ]
     }
   </script>
